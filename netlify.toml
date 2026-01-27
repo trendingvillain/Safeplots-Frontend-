@@ -1,3 +1,25 @@
+# 🚫 Block direct access to /seller
+[[redirects]]
+  from = "/seller"
+  to = "/403.html"
+  status = 403
+
+[[redirects]]
+  from = "/seller/*"
+  to = "/403.html"
+  status = 403
+
+[[redirects]]
+  from = "/admin"
+  to = "/403.html"
+  status = 403
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/403.html"
+  status = 403
+
+# ✅ SPA fallback (must be LAST)
 [[redirects]]
   from = "/*"
   to = "/index.html"
