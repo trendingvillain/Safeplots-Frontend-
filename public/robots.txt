@@ -1,0 +1,20 @@
+# Dedicated to SafePlots.in
+# Allow all search engines to crawl the site
+User-agent: *
+Allow: /
+
+# Specifically ensure social media and major bots are allowed
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+# Direct link to your sitemap to fix indexing errors
+Sitemap: https://www.safeplots.in/sitemap.xml

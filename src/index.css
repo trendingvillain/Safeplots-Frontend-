@@ -1,0 +1,248 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* SafePlots Brand Colors - Trust & Safety Theme */
+    --background: 150 20% 99%;
+    --foreground: 215 25% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 15%;
+
+    /* Primary - Emerald Green (Trust, Safety, Growth) */
+    --primary: 158 64% 40%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 158 64% 50%;
+    --primary-muted: 158 40% 90%;
+
+    /* Secondary - Deep Slate (Professional, Reliable) */
+    --secondary: 215 25% 20%;
+    --secondary-foreground: 0 0% 98%;
+
+    /* Accent - Warm Amber (Call to Action, Highlight) */
+    --accent: 38 92% 50%;
+    --accent-foreground: 0 0% 10%;
+
+    --muted: 150 10% 96%;
+    --muted-foreground: 215 15% 45%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 150 15% 90%;
+    --input: 150 15% 90%;
+    --ring: 158 64% 40%;
+
+    --radius: 0.75rem;
+
+    /* Custom SafePlots Variables */
+    --hero-gradient: linear-gradient(135deg, hsl(158 64% 40%), hsl(170 60% 35%));
+    --card-shadow: 0 4px 20px -4px hsl(158 64% 40% / 0.15);
+    --card-shadow-hover: 0 12px 30px -8px hsl(158 64% 40% / 0.25);
+    --trust-badge: 158 64% 95%;
+    --verified-green: 158 80% 45%;
+    --pending-amber: 38 92% 50%;
+    --sold-red: 0 70% 50%;
+
+    /* Sidebar */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 215 25% 25%;
+    --sidebar-primary: 158 64% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 150 20% 95%;
+    --sidebar-accent-foreground: 215 25% 20%;
+    --sidebar-border: 150 15% 90%;
+    --sidebar-ring: 158 64% 40%;
+  }
+
+  .dark {
+    --background: 215 30% 8%;
+    --foreground: 150 15% 95%;
+
+    --card: 215 25% 12%;
+    --card-foreground: 150 15% 95%;
+
+    --popover: 215 25% 12%;
+    --popover-foreground: 150 15% 95%;
+
+    --primary: 158 64% 45%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 158 64% 55%;
+    --primary-muted: 158 30% 20%;
+
+    --secondary: 215 20% 25%;
+    --secondary-foreground: 150 15% 95%;
+
+    --accent: 38 92% 55%;
+    --accent-foreground: 0 0% 10%;
+
+    --muted: 215 20% 18%;
+    --muted-foreground: 150 10% 60%;
+
+    --destructive: 0 70% 45%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 215 20% 20%;
+    --input: 215 20% 20%;
+    --ring: 158 64% 45%;
+
+    --trust-badge: 158 40% 15%;
+    --verified-green: 158 80% 50%;
+    --pending-amber: 38 92% 55%;
+    --sold-red: 0 70% 55%;
+
+    --sidebar-background: 215 25% 10%;
+    --sidebar-foreground: 150 15% 90%;
+    --sidebar-primary: 158 64% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 215 20% 15%;
+    --sidebar-accent-foreground: 150 15% 90%;
+    --sidebar-border: 215 20% 18%;
+    --sidebar-ring: 158 64% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+}
+
+@layer components {
+  .hero-gradient {
+    background: var(--hero-gradient);
+  }
+
+  .card-elevated {
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-elevated:hover {
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-4px);
+  }
+
+  .trust-badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium;
+    background: hsl(var(--trust-badge));
+    color: hsl(var(--primary));
+  }
+
+  .status-verified {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold;
+    background: hsl(var(--verified-green) / 0.15);
+    color: hsl(var(--verified-green));
+  }
+
+  .status-pending {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold;
+    background: hsl(var(--pending-amber) / 0.15);
+    color: hsl(var(--pending-amber));
+  }
+
+  .status-sold {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold;
+    background: hsl(var(--sold-red) / 0.15);
+    color: hsl(var(--sold-red));
+  }
+
+  .glass-card {
+    @apply backdrop-blur-xl border border-white/20;
+    background: hsl(var(--card) / 0.8);
+  }
+
+  .gradient-text {
+    background: var(--hero-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out forwards;
+  }
+
+  .animate-slide-in-right {
+    animation: slideInRight 0.5s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.4s ease-out forwards;
+  }
+
+  .animate-pulse-soft {
+    animation: pulseSoft 2s ease-in-out infinite;
+  }
+
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+  .stagger-4 { animation-delay: 0.4s; }
+  .stagger-5 { animation-delay: 0.5s; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes slideInRight {
+  from { 
+    opacity: 0; 
+    transform: translateX(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0); 
+  }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0; 
+    transform: scale(0.95); 
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
+}
+
+@keyframes pulseSoft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
