@@ -74,6 +74,7 @@ const SellerDashboard: React.FC = () => {
   const [stats, setStats] = useState<SellerStats>({ totalProperties: 0, liveProperties: 0, pendingProperties: 0, soldProperties: 0, totalInquiries: 0, newInquiries: 0, totalViews: 0 });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [phoneMenu, setPhoneMenu] = useState<string | null>(null);
   
   // Form state with all fields including latitude, longitude, amenities, features
   const [propertyForm, setPropertyForm] = useState({
@@ -121,10 +122,19 @@ const formRef = React.useRef<HTMLDivElement>(null);
   const soldProperties = properties.filter(p => p.status === 'sold');
   const newInquiries = inquiries.filter(i => i.status === 'new');
 
+  useEffect(() => {
+  const handleClickOutside = () => setPhoneMenu(null);
+  document.addEventListener("click", handleClickOutside);
+  return () => document.removeEventListener("click", handleClickOutside);
+}, []);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setPropertyForm(prev => ({ ...prev, [name]: value }));
   };
+
+
+  
 
   const scrollToForm = () => {
   // Small timeout ensures the Tab content has rendered before scrolling
@@ -483,7 +493,7 @@ const formRef = React.useRef<HTMLDivElement>(null);
                 {inquiries.map((inquiry) => (
                   <Card key={inquiry.id}>
                     <CardContent className="p-4">
-                      <div className="flex items-start justify-between gap-4">
+                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-2">
                             <span className="font-medium">{inquiry.buyerName}</span>
@@ -491,13 +501,48 @@ const formRef = React.useRef<HTMLDivElement>(null);
                           </div>
                           <Link to={`/property/${inquiry.propertyId}`} className="text-sm text-primary hover:underline">{inquiry.propertyTitle}</Link>
                           <p className="text-sm text-muted-foreground mt-2">{inquiry.message}</p>
-                          <div className="flex items-center gap-4 mt-3 text-xs text-muted-foreground">
-                            {inquiry.buyerPhone && <span className="flex items-center gap-1"><Phone className="h-3 w-3" />{inquiry.buyerPhone}</span>}
-                            <span className="flex items-center gap-1"><Mail className="h-3 w-3" />{inquiry.buyerEmail}</span>
+                          <div className="flex flex-wrap items-center gap-3 mt-3 text-xs text-muted-foreground">
+                            {inquiry.buyerPhone && <div className="relative">
+  <button
+    onClick={(e) =>{
+      e.stopPropagation();
+      setPhoneMenu(phoneMenu === inquiry.id ? null : inquiry.id)
+    }}
+    className="flex items-center gap-1 break-words hover:text-primary"
+  >
+    <Phone className="h-3 w-3" />
+    {inquiry.buyerPhone}
+  </button>
+
+  {phoneMenu === inquiry.id && (
+    <div className="absolute z-10 mt-2 w-32 bg-white border rounded-md shadow-lg text-sm">
+
+      <a
+        href={`tel:${inquiry.buyerPhone}`}
+        onClick={() => setPhoneMenu(null)}
+        className="block px-3 py-2 hover:bg-gray-100"
+      >
+        📞 Call
+      </a>
+
+      <a
+        href={`https://wa.me/${inquiry.buyerPhone}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={() => setPhoneMenu(null)}
+        className="block px-3 py-2 hover:bg-gray-100"
+      >
+        💬 WhatsApp
+      </a>
+
+    </div>
+  )}
+</div>}
+                            <span className="flex items-center gap-1 break-all"><Mail className="h-3 w-3" />{inquiry.buyerEmail}</span>
                           </div>
                         </div>
                         {inquiry.status === 'new' && (
-                          <div className="flex gap-2">
+                          <div className="flex flex-wrap gap-2 shrink-0">
                             <Button size="sm" onClick={() => handleInquiryAction(inquiry.id, 'contacted')}>Mark Contacted</Button>
                             <Button size="sm" variant="outline" onClick={() => handleInquiryAction(inquiry.id, 'closed')}>Close</Button>
                           </div>
