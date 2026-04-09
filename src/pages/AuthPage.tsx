@@ -36,21 +36,38 @@ const AuthPage: React.FC = () => {
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [forgotPasswordError, setForgotPasswordError] = useState('');
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoginError('');
-    
-    try {
-      await login(loginData.email, loginData.password);
+ const handleLogin = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setLoginError('');
+
+  try {
+    const response = await login(loginData.email, loginData.password);
+
+    const user = response.data.user;
+
+    if (!user.isVerified) {
+      setRegisteredEmail(user.email);
+      setShowOtpScreen(true);
+
       toast({
-        title: 'Welcome back!',
-        description: 'You have successfully logged in.',
+        title: "Email not verified",
+        description: "Please verify your email to continue."
       });
-      navigate('/');
-    } catch (error: any) {
-      setLoginError('Invalid email or password');
+
+      return;
     }
-  };
+
+    toast({
+      title: "Welcome back!",
+      description: "You have successfully logged in."
+    });
+
+    navigate('/');
+
+  } catch {
+    setLoginError('Invalid email or password');
+  }
+};
 
   const validateRegisterForm = (): boolean => {
     const errors: Record<string, string> = {};

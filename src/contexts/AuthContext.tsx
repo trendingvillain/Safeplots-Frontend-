@@ -20,7 +20,7 @@ interface AuthContextType {
   user: User | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<any>;
   logout: () => void;
   register: (email: string, password: string, name: string, phone: string) => Promise<void>;
   verifyOtp: (email: string, otp: string) => Promise<void>;
@@ -51,21 +51,33 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
 
   const login = async (email: string, password: string) => {
-    setIsLoading(true);
-    try {
-      const response = await authService.login(email, password);
-      
-      if (!response.success || !response.data) {
-        throw new Error(response.error || 'Invalid credentials');
-      }
-      
-      const userData = { ...response.data.user, token: response.data.token };
-      setUser(userData);
-      localStorage.setItem('safeplots_user', JSON.stringify(userData));
-    } finally {
-      setIsLoading(false);
+  setIsLoading(true);
+
+  try {
+    const response = await authService.login(email, password);
+
+    if (!response.success || !response.data) {
+      throw new Error(response.error || "Invalid credentials");
     }
-  };
+
+    const { user, token } = response.data;
+
+    // ❗ If user not verified, don't store login
+    if (!user.isVerified) {
+      return response;
+    }
+
+    const userData = { ...user, token };
+
+    setUser(userData);
+    localStorage.setItem("safeplots_user", JSON.stringify(userData));
+
+    return response;
+
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   const logout = () => {
     setUser(null);

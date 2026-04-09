@@ -207,12 +207,27 @@ const UserDashboard: React.FC = () => {
               <Card>
                 <CardHeader><CardTitle>Profile Information</CardTitle></CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div><p className="text-sm text-muted-foreground">Name</p><p className="font-medium">{user?.name}</p></div>
-                    <div><p className="text-sm text-muted-foreground">Email</p><p className="font-medium">{user?.email}</p></div>
-                    <div><p className="text-sm text-muted-foreground">Phone</p><p className="font-medium">{user?.phone || 'Not provided'}</p></div>
-                    <div><p className="text-sm text-muted-foreground">Account Type</p><p className="font-medium capitalize">{user?.role}</p></div>
-                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  <div>
+    <p className="text-sm text-muted-foreground">Name</p>
+    <p className="font-medium break-words">{user?.name}</p>
+  </div>
+
+  <div>
+    <p className="text-sm text-muted-foreground">Email</p>
+    <p className="font-medium break-all">{user?.email}</p>
+  </div>
+
+  <div>
+    <p className="text-sm text-muted-foreground">Phone</p>
+    <p className="font-medium break-words">{user?.phone || 'Not provided'}</p>
+  </div>
+
+  <div>
+    <p className="text-sm text-muted-foreground">Account Type</p>
+    <p className="font-medium capitalize">{user?.role}</p>
+  </div>
+</div>
                   {user?.role === 'user' && (
                     <div className="pt-4 border-t">
                       <p className="text-muted-foreground mb-4">Want to sell? Become a verified seller.</p>
